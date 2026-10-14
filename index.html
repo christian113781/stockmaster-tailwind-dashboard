@@ -681,11 +681,11 @@
             <div class="relative w-24 h-24" aria-hidden="true">
               <svg viewBox="0 0 36 36" class="w-24 h-24 -rotate-90">
                 <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e0eaff" stroke-width="3.5"/>
-                <template x-for="seg in donutSegments" :key="seg.name">
-                  <circle cx="18" cy="18" r="15.9" fill="none" :stroke="seg.hex" stroke-width="3.5"
-                          :stroke-dasharray="seg.dash + ' ' + (100 - seg.dash)"
-                          :stroke-dashoffset="seg.offset" stroke-linecap="round"/>
-                </template>
+                <!-- <template> inside <svg> is parsed as an SVG element, so x-for can't be used here -->
+                <g x-html="donutSegments.map(seg =>
+                  `<circle cx='18' cy='18' r='15.9' fill='none' stroke='${seg.hex}' stroke-width='3.5'
+                           stroke-dasharray='${seg.dash} ${100 - seg.dash}'
+                           stroke-dashoffset='${seg.offset}' stroke-linecap='round'/>`).join('')"></g>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
                 <span class="text-lg font-bold text-gray-900">2.8k</span>
